@@ -16,9 +16,9 @@ function GUINyquist
     titulo = uilabel(figura, 'Text', 'Análisis de Señales', 'FontWeight', 'bold', 'FontSize', 16, 'Position', [250, 250, 200, 30]);
     
     % Agregar un logo C:\Users\juanl\Desktop\MatLab Project\logo.png
-    logo = imread('C:\Users\juanl\Desktop\TFI COMUNICACIONES\logo.png'); % Cambia 'ruta_del_archivo/logo.png' por la ruta de tu imagen
-    ax = uiaxes(figura, 'Units', 'pixels', 'Position', [380, 215, 150, 100]);
-    imshow(logo, 'Parent', ax);
+    %logo = imread('C:\Users\juanl\Desktop\TFI COMUNICACIONES\logo.png'); % Cambia 'ruta_del_archivo/logo.png' por la ruta de tu imagen
+    %ax = uiaxes(figura, 'Units', 'pixels', 'Position', [380, 215, 150, 100]);
+    %imshow(logo, 'Parent', ax);
 
     % Crear controles de entrada y etiquetas con unidades
     etiquetaAmplitud = uilabel(figura, 'Text', 'Amplitud:', 'Position', [50, 200, 80, 22]);
