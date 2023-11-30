@@ -1,13 +1,23 @@
-function MuestreoNyquist
+function GUINyquist
     % Crear la interfaz gráfica
     figura = uifigure('Name', 'Gráfico de Señal', 'Position', [100, 100, 650, 300]);
 
+    % Desactivar AutoResizeChildren
+    figura.AutoResizeChildren = 'off';
+
+    % Establecer tamaño fijo de la ventana
+    figura.SizeChangedFcn = @(src, event) set(src, 'Position', [100, 100, 650, 300]);
+
+    % Desactivar la maximización de la ventana
+    figura.WindowState = 'normal';  % Asegurarse de que la ventana no esté maximizada
+    figura.WindowButtonDownFcn = @(src, event) set(src, 'WindowStyle', 'normal');
+
     % Agregar un título
-    titulo = uilabel(figura, 'Text', 'Muestreo de Señales', 'FontWeight', 'bold', 'FontSize', 16, 'Position', [250, 250, 200, 30]);
+    titulo = uilabel(figura, 'Text', 'Análisis de Señales', 'FontWeight', 'bold', 'FontSize', 16, 'Position', [250, 250, 200, 30]);
     
     % Agregar un logo C:\Users\juanl\Desktop\MatLab Project\logo.png
     logo = imread('C:\Users\juanl\Desktop\TFI COMUNICACIONES\logo.png'); % Cambia 'ruta_del_archivo/logo.png' por la ruta de tu imagen
-    ax = uiaxes(figura, 'Units', 'pixels', 'Position', [385, 215, 150, 100]);
+    ax = uiaxes(figura, 'Units', 'pixels', 'Position', [380, 215, 150, 100]);
     imshow(logo, 'Parent', ax);
 
     % Crear controles de entrada y etiquetas con unidades
@@ -23,9 +33,13 @@ function MuestreoNyquist
     etiquetaFuncion = uilabel(figura, 'Text', 'Función:', 'Position', [50, 140, 80, 22]);
     listaFuncion = uidropdown(figura, 'Items', opcionesFuncion, 'Position', [150, 140, 100, 22], 'ValueChangedFcn', @(dropdown,event)actualizarFuncion());
 
+    
     % Control deslizante para ajustar la frecuencia de Nyquist
     etiquetaFs = uilabel(figura, 'Text', 'Frecuencia de Nyquist:', 'Position', [300, 200, 150, 22]);
     sliderFs = uislider(figura, 'Limits', [1, 10], 'Value', 2, 'Position', [460, 200, 100, 3], 'ValueChangedFcn', @(slider,event)actualizarFs());
+    
+    % Crear un uilabel para mostrar el valor del slider
+    etiquetaValorSlider = uilabel(figura, 'Text', sprintf('Valor Actual: %g', sliderFs.Value), 'Position', [300, 180, 150, 22]);
 
     % Botón para restablecer el valor del slider
     botonRestablecer = uibutton(figura, 'Text', 'Restablecer', 'Position', [455, 130, 80, 30], 'ButtonPushedFcn', @(btn,event)restablecerSlider());
@@ -34,7 +48,7 @@ function MuestreoNyquist
     botonGraficar = uibutton(figura, 'Text', 'Graficar', 'Position', [150, 100, 100, 30], 'ButtonPushedFcn', @(btn,event)graficarFcn());
 
     % Botón de alternancia entre 'plot' y 'stem'
-    botonAlternar = uibutton(figura, 'Text', 'Interpolar', 'Position', [455, 90, 80, 30], 'ButtonPushedFcn', @(btn,event)alternarGraficoFcn());
+    botonAlternar = uibutton(figura, 'Text', 'Interpolar', 'Position', [455, 95, 80, 30], 'ButtonPushedFcn', @(btn,event)alternarGraficoFcn());
 
     % Agregar pie de página con la fecha y el autor
     fechaActual = datestr(now, 'dd/mm/yyyy');
@@ -75,6 +89,8 @@ function MuestreoNyquist
     function actualizarFs()
         % Actualizar la interfaz gráfica mientras desplazas el slider
         graficarFcn();
+        % Actualizar el valor del slider en el uilabel
+        etiquetaValorSlider.Text = sprintf('Valor Actual: %g', sliderFs.Value);
     end
 
     % Función para graficar
@@ -119,7 +135,7 @@ function MuestreoNyquist
             plot(Ts, xn, 'r--o','LineWidth', 1);
         end
         grid on;
-        title('Señal muestreada');
+        title('Señal en el dominio de la frecuencia');
         xlabel('Tiempo');
         ylabel('Amplitud');
     end
